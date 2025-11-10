@@ -1,107 +1,172 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Calculator, Building2, TrendingUp, Shield } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Calculator, Building2, TrendingUp, Shield } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const features = [
     {
       icon: Calculator,
-      title: 'Smart Cost Estimation',
-      description: 'Get accurate building cost estimates with our advanced calculation engine'
+      title: "Smart Cost Estimation",
+      description:
+        "Get accurate building cost estimates powered by an advanced AI-backed calculation engine.",
     },
     {
       icon: Building2,
-      title: 'Multiple Material Types',
-      description: 'Choose from Standard, Premium, or Luxury materials with different cost structures'
+      title: "Material Flexibility",
+      description:
+        "Choose between Standard, Premium, or Luxury categories for precise cost differentiation.",
     },
     {
       icon: TrendingUp,
-      title: 'Real-time Calculations',
-      description: 'See cost estimates update instantly as you modify your project parameters'
+      title: "Real-time Updates",
+      description:
+        "Watch your cost estimation update live as you change parameters or material choices.",
     },
     {
       icon: Shield,
-      title: 'Save & Track Projects',
-      description: 'Store your estimations and track all your building projects in one place'
-    }
+      title: "Save & Track Projects",
+      description:
+        "Securely save and revisit your project estimations anytime, anywhere.",
+    },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto py-16 px-6 text-gray-200">
       {/* Hero Section */}
-      <div className="text-center mb-16">
+      <motion.div
+        className="text-center mb-20"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
         <div className="mb-8">
-          <Building2 className="w-16 h-16 mx-auto text-blue-600 mb-4" />
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Building Cost Estimation Tool
+          <motion.div
+            initial={{ rotate: -15, opacity: 0 }}
+            animate={{ rotate: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Building2 className="w-16 h-16 mx-auto text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)] mb-4" />
+          </motion.div>
+
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 text-transparent bg-clip-text mb-4">
+            BuildCost Pro
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Plan your construction projects with confidence. Get accurate cost estimates, 
-            compare material options, and manage all your building projects efficiently.
+
+          <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Estimate your building costs with confidence. Our intelligent tool
+            helps you plan, calculate, and manage projects seamlessly — all in
+            one platform.
           </p>
         </div>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
           <Link
             to="/estimate"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-10 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-blue-500/20 transform hover:-translate-y-1 transition-all"
           >
             Start New Estimation
           </Link>
           <Link
             to="/projects"
-            className="bg-white hover:bg-gray-50 text-blue-600 border-2 border-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="bg-gray-900/50 border border-blue-500/30 hover:bg-gray-800/70 text-blue-300 px-10 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-blue-400/10 transform hover:-translate-y-1 transition-all"
           >
             View Saved Projects
           </Link>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Features Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+      {/* Features Section */}
+      <motion.div
+        className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.15 },
+          },
+        }}
+      >
         {features.map((feature, index) => (
-          <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
-            <div className="bg-blue-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <feature.icon className="w-6 h-6 text-blue-600" />
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            whileHover={{ scale: 1.05 }}
+            className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 border border-gray-700/50 p-6 rounded-2xl shadow-lg hover:shadow-blue-500/10 backdrop-blur-lg transition-all duration-200"
+          >
+            <div className="bg-gradient-to-br from-blue-600/20 to-indigo-600/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-inner">
+              <feature.icon className="w-6 h-6 text-blue-400" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-            <p className="text-gray-600">{feature.description}</p>
-          </div>
+            <h3 className="text-lg font-semibold text-gray-100 mb-2">
+              {feature.title}
+            </h3>
+            <p className="text-gray-400 text-sm">{feature.description}</p>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Cost Structure Info */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Our Cost Structure</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-green-600 font-bold text-xl">₹</span>
-            </div>
-            <h3 className="font-semibold text-gray-900">Standard</h3>
-            <p className="text-2xl font-bold text-green-600 mb-2">₹1,200/sq ft</p>
-            <p className="text-gray-600 text-sm">Basic materials and finishes</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-blue-600 font-bold text-xl">₹</span>
-            </div>
-            <h3 className="font-semibold text-gray-900">Premium</h3>
-            <p className="text-2xl font-bold text-blue-600 mb-2">₹1,800/sq ft</p>
-            <p className="text-gray-600 text-sm">High-quality materials and finishes</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-purple-600 font-bold text-xl">₹</span>
-            </div>
-            <h3 className="font-semibold text-gray-900">Luxury</h3>
-            <p className="text-2xl font-bold text-purple-600 mb-2">₹2,500/sq ft</p>
-            <p className="text-gray-600 text-sm">Premium materials and luxury finishes</p>
-          </div>
+      {/* Cost Structure Section */}
+      <motion.div
+        className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700/50 rounded-2xl p-10 shadow-2xl"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
+        <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text mb-10">
+          Cost Structure Overview
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-10 text-center">
+          {[
+            {
+              title: "Standard",
+              color: "green",
+              cost: "₹1,200/sq ft",
+              desc: "Affordable and efficient materials.",
+            },
+            {
+              title: "Premium",
+              color: "blue",
+              cost: "₹1,800/sq ft",
+              desc: "High-quality materials and craftsmanship.",
+            },
+            {
+              title: "Luxury",
+              color: "purple",
+              cost: "₹2,500/sq ft",
+              desc: "Top-tier materials with modern finishes.",
+            },
+          ].map((tier, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.05 }}
+              className={`p-6 rounded-xl bg-gray-800/70 border border-${tier.color}-500/40 shadow-md hover:shadow-${tier.color}-400/20 transition-all`}
+            >
+              <div
+                className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-${tier.color}-900/30`}
+              >
+                <span
+                  className={`text-${tier.color}-400 font-bold text-2xl drop-shadow-sm`}
+                >
+                  ₹
+                </span>
+              </div>
+              <h3 className="font-semibold text-gray-100">{tier.title}</h3>
+              <p
+                className={`text-2xl font-bold text-${tier.color}-400 mb-2 drop-shadow`}
+              >
+                {tier.cost}
+              </p>
+              <p className="text-gray-400 text-sm">{tier.desc}</p>
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

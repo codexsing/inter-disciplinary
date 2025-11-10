@@ -1,57 +1,83 @@
-import React from 'react';
-import { X, CheckCircle, XCircle, Info } from 'lucide-react';
-import { useNotification } from '../contexts/NotificationContext';
+import React from "react";
+import { X, CheckCircle, XCircle, Info } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNotification } from "../contexts/NotificationContext";
 
 const NotificationContainer = () => {
   const { notifications, removeNotification } = useNotification();
 
-  const getNotificationIcon = (type: string) => {
+  const getNotificationStyle = (type) => {
     switch (type) {
-      case 'success':
-        return <CheckCircle className="w-5 h-5 text-green-500" />;
-      case 'error':
-        return <XCircle className="w-5 h-5 text-red-500" />;
-      case 'info':
-        return <Info className="w-5 h-5 text-blue-500" />;
+      case "success":
+        return {
+          bg: "from-green-700/20 to-green-800/10",
+          border: "border-green-500/30",
+          iconColor: "text-green-400",
+          glow: "shadow-[0_0_15px_rgba(34,197,94,0.4)]",
+        };
+      case "error":
+        return {
+          bg: "from-red-700/20 to-red-800/10",
+          border: "border-red-500/30",
+          iconColor: "text-red-400",
+          glow: "shadow-[0_0_15px_rgba(239,68,68,0.4)]",
+        };
+      case "info":
+        return {
+          bg: "from-blue-700/20 to-blue-800/10",
+          border: "border-blue-500/30",
+          iconColor: "text-blue-400",
+          glow: "shadow-[0_0_15px_rgba(59,130,246,0.4)]",
+        };
       default:
-        return <Info className="w-5 h-5 text-blue-500" />;
+        return {
+          bg: "from-gray-700/20 to-gray-800/10",
+          border: "border-gray-500/30",
+          iconColor: "text-gray-300",
+          glow: "shadow-[0_0_15px_rgba(156,163,175,0.3)]",
+        };
     }
   };
-
-  const getNotificationColors = (type: string) => {
-    switch (type) {
-      case 'success':
-        return 'bg-green-50 border-green-200 text-green-800';
-      case 'error':
-        return 'bg-red-50 border-red-200 text-red-800';
-      case 'info':
-        return 'bg-blue-50 border-blue-200 text-blue-800';
-      default:
-        return 'bg-blue-50 border-blue-200 text-blue-800';
-    }
-  };
-
-  if (notifications.length === 0) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
-      {notifications.map((notification) => (
-        <div
-          key={notification.id}
-          className={`flex items-center p-4 rounded-lg border shadow-lg animate-slide-in max-w-md ${getNotificationColors(notification.type)}`}
-        >
-          {getNotificationIcon(notification.type)}
-          <span className="ml-3 flex-1 text-sm font-medium">
-            {notification.message}
-          </span>
-          <button
-            onClick={() => removeNotification(notification.id)}
-            className="ml-3 flex-shrink-0 hover:opacity-70 transition-opacity"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      ))}
+    <div className="fixed top-5 right-5 z-50 flex flex-col space-y-3">
+      <AnimatePresence>
+        {notifications.map((n) => {
+          const style = getNotificationStyle(n.type);
+
+          return (
+            <motion.div
+              key={n.id}
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg border ${style.border} bg-gradient-to-br ${style.bg} backdrop-blur-md ${style.glow} text-slate-200 shadow-lg`}
+            >
+              {n.type === "success" && (
+                <CheckCircle className={`w-5 h-5 ${style.iconColor}`} />
+              )}
+              {n.type === "error" && (
+                <XCircle className={`w-5 h-5 ${style.iconColor}`} />
+              )}
+              {n.type === "info" && (
+                <Info className={`w-5 h-5 ${style.iconColor}`} />
+              )}
+
+              <span className="flex-1 text-sm font-medium tracking-wide">
+                {n.message}
+              </span>
+
+              <button
+                onClick={() => removeNotification(n.id)}
+                className="hover:scale-110 transition-transform text-slate-400 hover:text-slate-200"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };
